@@ -1,12 +1,18 @@
 // src/App.jsx
-import React from 'react';
+import React from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./index.css";
+import NavBar from "./components/marginals/navbar/NavBar";
+import Home from "./pages/Home";
 
 const App = () => {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">Syntara</h1>
-    </div>
+    <Router>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </Router>
   );
 };
 
