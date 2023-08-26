@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background-color: #260b36;
+}
+
+@media (max-width: 970px) {
+  .custom-strip {
+    animation: ticker 50s linear 0s infinite;
+  }
+
+  @keyframes ticker {
+    0% {
+      transform: translate(100vw, 0);
+    }
+    100% {
+      transform: translate(-100%, 0);
+    }
+  }
+}
