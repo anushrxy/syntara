@@ -1,7 +1,11 @@
 import React from "react";
 import Button from "./shared/Button";
+import { useAccount, useConnect } from "wagmi";
+import NavButton from "./shared/NavButton";
+
 
 function Hero() {
+  const { connector: activeConnector, isConnected, address } = useAccount();
   return (
     <>
       <div className="flex justify-center items-center gap-10 -rotate-45 w-[300px] h-[300px] lg:w-[500px] lg:h-[500px] border-bg-tertiary border-[30px] lg:border-[50px] rounded-full absolute top-9 right-28 md:top-36 md:right-60 -z-10">
@@ -55,8 +59,15 @@ function Hero() {
               Revolution Today!
             </span>
             <div className="flex flex-col lg:flex-row gap-2 mt-6">
-              <Button goTo={"/buyer"}>I'm a Buyer</Button>
-              <Button goTo={"/seller"}>I'm a Seller</Button>
+              {!isConnected && <>
+                <NavButton />
+              </>}
+              {isConnected && (
+                <>
+                  <Button goTo={"/buyer"}>I'm a Buyer</Button>
+                  <Button goTo={"/seller"}>I'm a Seller</Button>
+                </>
+              )}
             </div>
           </div>
         </div>

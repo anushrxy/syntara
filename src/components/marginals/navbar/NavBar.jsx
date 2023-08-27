@@ -2,8 +2,11 @@ import { useState } from "react";
 import Logo from "../../shared/Logo";
 import NavButton from "../../shared/NavButton";
 
+
 function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  
 
   return (
     <nav className="bg-bg-secondary text-color-primary h-20">
