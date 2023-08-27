@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
+import { usePrepareContractWrite, useContractWrite, useContractRead } from "wagmi";
+import { parseAbi, parseEther } from "viem";
 
 function Form() {
   const [eventName, setEventName] = useState("");
@@ -8,14 +10,45 @@ function Form() {
   const [file, setFile] = useState(null);
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
-  const createEvent = async () => {
-    setEventName("");
-    setGenre("");
-    setVenue("");
-    setFile(null);
-    setQuantity("");
-    setPrice("");
-  };
+  const [deployState, setDeployState] = useState("0");
+
+  const { config, error } = usePrepareContractWrite({
+    address: "0x6e87f7782fCc8344F828857BdB0E402c09a3F29E",
+    abi: parseAbi([
+      "function deployNewContract(string memory contractName, string memory symbol) public",
+    ]),
+    functionName: "deployNewContract",
+    args: [` ${eventName}`, eventName],
+  });
+
+
+  const { write, isSuccess, isLoading} = useContractWrite(config);
+
+  useEffect(() => {
+    if(deployState === "0" && isSuccess){
+      setDeployState("1");
+    }
+    console.log("Data: ", data);
+  }, [isSuccess]);
+
+  async function createContract() {
+    console.log("Create Contract");
+    await write?.();
+  }
+
+  // const { data, isError, status } = useContractRead({
+  //   address: '0x6e87f7782fCc8344F828857BdB0E402c09a3F29E',
+  //   abi: parseAbi(['function getLastContract() public view returns (address)']),
+  //   functionName: 'getLastContract',
+  // });
+
+  useEffect(() => {
+    console.log("Status: ", status);
+    if(status === "success"){
+      console.log("Data New: ", data);
+    }
+  }, [status])
+  
 
   return (
     <>
@@ -23,7 +56,7 @@ function Form() {
         <div className="mx-auto max-w-screen-lg px-4 pt-2 pb-16 sm:px-6 lg:px-8">
           <div className="">
             <div className="bg-bg-tertiary p-8 shadow-lg lg:p-12">
-              <form action="" className="space-y-4">
+              <form action="" onSubmit={(e)=>{e.preventDefault()}} className="space-y-4">
                 <div>
                   <label className="sr-only" for="event-name">
                     Event Name
@@ -114,16 +147,17 @@ function Form() {
                   </div>
                 </div>
 
-                <div className="mt-4">
-                  <button
-                    type="submit"
-                    className="inline-block w-full bg-color-secondary px-5 py-3 font-medium text-white sm:w-auto"
-                    onClick={createEvent}
-                  >
-                    List Tickets
-                  </button>
-                </div>
+                <div className="mt-4"></div>
               </form>
+              <button
+                className="inline-block w-full bg-color-secondary px-5 py-3 font-medium text-white sm:w-auto"
+                onClick={() => {
+                  console.log("button clicked");
+                  createContract();
+                }}
+              >
+                {isSuccess ? "Listed" : isLoading ? "Loading...": "List Tickets"}
+              </button>
             </div>
           </div>
         </div>
