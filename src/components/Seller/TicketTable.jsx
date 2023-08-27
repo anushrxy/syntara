@@ -39,10 +39,10 @@ const TicketTable = () => {
           <table className="w-full border-collapse border">
             <thead>
               <tr className="bg-bg-tertiary">
-                <th className="border px-4 py-2">Event Name</th>
-                <th className="border px-4 py-2">Tickets Sold</th>
-                <th className="border px-4 py-2">Tickets Left</th>
-                <th className="border px-4 py-2">Amount Earned</th>
+                <th className="border border-color-primary px-4 py-2">Event Name</th>
+                <th className="border border-color-primary px-4 py-2">Tickets Sold</th>
+                <th className="border border-color-primary px-4 py-2">Tickets Left</th>
+                <th className="border border-color-primary px-4 py-2">Amount Earned</th>
               </tr>
             </thead>
             <tbody>
@@ -63,10 +63,10 @@ const TicketTable = () => {
                 </tr>
               ))}
               <tr className="bg-bg-tertiary">
-                <td className="border px-4 py-2 font-semibold" colSpan="3">
-                  Total Amount Earned
+                <td className="border border-color-primary px-4 py-2 font-semibold" colSpan="3">
+                  Total Amount Earned:
                 </td>
-                <td className="border px-4 py-2 font-semibold">
+                <td className="border border-color-primary px-4 py-2 font-semibold">
                   ${totalAmountEarned.toFixed(2)}
                 </td>
               </tr>

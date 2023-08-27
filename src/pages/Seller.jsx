@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Form from "../components/Seller/Form";
 import TicketTable from "../components/Seller/TicketTable"
+import VerifyTicket from "../components/Seller/VerifyTicket";
 
 function Seller() {
   const [activeTab, setActiveTab] = useState(1);
@@ -12,7 +13,7 @@ function Seller() {
       case 2:
         return <TicketTable/>;
       case 3:
-        return <p className="text-xl">Coming Soon...</p>;
+        return <VerifyTicket/>
       default:
         return null;
     }
