@@ -15,7 +15,7 @@ function AboutUs() {
     "Anmol Pattnayak",
   ];
   return (
-    <div className="py-10 px-4 bg-bg-tertiary">
+    <div className="py-10 px-4 bg-bg-tertiary" id="about">
       <div className=" flex flex-col items-center justify-start  w-[90%] mx-auto">
         <div className="self-start">
           <p className="text-4xl md:text-7xl font-bold ">About Us</p>

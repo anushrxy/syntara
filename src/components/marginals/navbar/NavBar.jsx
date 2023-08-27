@@ -7,7 +7,7 @@ function NavBar() {
 
   return (
     <nav className="bg-bg-secondary text-color-primary h-20">
-      <div className="mx-auto max-w-7xl px-4 py-4 flex justify-between items-center">
+      <div className="mx-auto pt-6 md:pt-4 max-w-7xl px-4 pb-4 flex justify-between items-center">
         <a href="/" className="flex items-center">
           <Logo />
           <span className="ml-2 font-bold text-xl">Syntara</span>

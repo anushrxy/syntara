@@ -1,7 +1,18 @@
 import React from "react";
+import { useState } from "react";
 import Button from "./shared/Button";
+import SellTicket from '../components/Cards/SellTicket'
 
 function Hero() {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  function handleDrawerOpen() {
+    setIsDrawerOpen(true);
+  }
+
+  function handleDrawerClose() {
+    setIsDrawerOpen(false);
+  }
   return (
     <>
       <div className="flex justify-center items-center gap-10 -rotate-45 w-[300px] h-[300px] lg:w-[500px] lg:h-[500px] border-bg-tertiary border-[30px] lg:border-[50px] rounded-full absolute top-9 right-28 md:top-36 md:right-60 -z-10">
@@ -56,7 +67,7 @@ function Hero() {
             </span>
             <div className="flex flex-col lg:flex-row gap-2 mt-6">
               <Button>I'm a Buyer</Button>
-              <Button>I'm a Seller</Button>
+              <Button onClick={handleDrawerOpen}>I'm a Seller</Button>
             </div>
           </div>
         </div>
@@ -66,6 +77,10 @@ function Hero() {
           className="hidden lg:block w-full md:w-1/2 mt-6 md:mt-0 max-w-[300px] h-auto max-h-[600px]"
         />
       </div>
+      <SellTicket isOpen={isDrawerOpen} onClose={handleDrawerClose} >
+        <h2 className="text-lg font-semibold mb-4">Modal Content</h2>
+        <p>This is a simple modal created using React and Tailwind CSS.</p>
+      </SellTicket>
     </>
   );
 }

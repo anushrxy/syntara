@@ -3,7 +3,7 @@ import SpecialityCard from "./Cards/SpecialityCard";
 
 function Speciality() {
   return (
-    <div className="py-10 px-4 flex flex-col items-center justify-start max-w-[90%] mx-auto">
+    <div className="py-10 px-4 flex flex-col items-center justify-start max-w-[90%] mx-auto" id="speciality">
       <div className="md:self-start ">
         <p className="text-4xl md:text-7xl font-bold ">Our Speciality</p>
         <svg
