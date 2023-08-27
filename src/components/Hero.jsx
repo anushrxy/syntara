@@ -2,6 +2,7 @@ import React from "react";
 import Button from "./shared/Button";
 import { useAccount, useConnect } from "wagmi";
 import NavButton from "./shared/NavButton";
+import { addContract, getContracts } from "../helpers/firebaseFunctions";
 
 
 function Hero() {
@@ -66,6 +67,9 @@ function Hero() {
                 <>
                   <Button goTo={"/buyer"}>I'm a Buyer</Button>
                   <Button goTo={"/seller"}>I'm a Seller</Button>
+                  
+                  {/* <button type="button" onClick={()=>{addContract("bv","name","ipfsurl","123",4,0,"None","NA")}}>Add</button> */}
+                  {/* <button type="button" onClick={getContracts}>Get</button> */}
                 </>
               )}
             </div>
