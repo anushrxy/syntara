@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { usePrepareContractWrite, useContractWrite, useContractRead } from "wagmi";
 import { parseAbi, parseEther } from "viem";
+import { ethers } from "ethers";
 
 function Form() {
   const [eventName, setEventName] = useState("");
@@ -10,30 +11,117 @@ function Form() {
   const [file, setFile] = useState(null);
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
-  const [deployState, setDeployState] = useState("0");
+  const [receipt, setReceipt] = useState("");
+  const [deployedContract, setDeployedContract] = useState("");
 
-  const { config, error } = usePrepareContractWrite({
-    address: "0x6e87f7782fCc8344F828857BdB0E402c09a3F29E",
-    abi: parseAbi([
-      "function deployNewContract(string memory contractName, string memory symbol) public",
-    ]),
-    functionName: "deployNewContract",
-    args: [` ${eventName}`, eventName],
-  });
-
-
-  const { write, isSuccess, isLoading} = useContractWrite(config);
-
-  useEffect(() => {
-    if(deployState === "0" && isSuccess){
-      setDeployState("1");
+  const contractAddress = "0x6e87f7782fCc8344F828857BdB0E402c09a3F29E";
+  const abi = [
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "contractName",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "symbol",
+          "type": "string"
+        }
+      ],
+      "name": "deployNewContract",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "deployedContracts",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getLastContract",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     }
-    console.log("Data: ", data);
-  }, [isSuccess]);
+  ];
+  
+
+  // const { config, error } = usePrepareContractWrite({
+  //   address: "0x6e87f7782fCc8344F828857BdB0E402c09a3F29E",
+  //   abi: parseAbi([
+  //     "function deployNewContract(string memory contractName, string memory symbol) public",
+  //   ]),
+  //   functionName: "deployNewContract",
+  //   args: [` ${eventName}`, eventName],
+  // });
+
+
+  // const { write, data,  isSuccess, isLoading} = useContractWrite(config);
+
 
   async function createContract() {
     console.log("Create Contract");
-    await write?.();
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = await provider.getSigner();
+    const contractInstance = new ethers.Contract(contractAddress, abi, signer);
+    const transaction = await contractInstance.deployNewContract(eventName, eventName);
+    console.log("Transaction: ", transaction)
+    const receipt = await transaction.wait();
+    console.log("Receipt: ", receipt);
+    const contractInstance2 = new ethers.Contract(contractAddress, abi, signer);
+    const lastContract = await contractInstance2.getLastContract();
+    console.log("Last Contract: ", lastContract);
+  }
+
+  useEffect(() => {
+    if (receipt) {
+      console.log("Hello")
+      // getLastContract();
+    }
+  }, [receipt])
+  
+
+
+
+  async function getLastContract() {
+    console.log("Getting Last Contract...");
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = await provider.getSigner();
+    const contractAddress = "0x6e87f7782fCc8344F828857BdB0E402c09a3F29E"
+    const abi = parseAbi(["function getLastContract() public view returns (address)"]);
+    const contractInstance2 = new ethers.Contract(contractAddress, abi, signer);
+    const lastContract = await contractInstance2.getLastContract();
+    console.log("Last Contract: ", lastContract);
+    
   }
 
   // const { data, isError, status } = useContractRead({
@@ -42,12 +130,12 @@ function Form() {
   //   functionName: 'getLastContract',
   // });
 
-  useEffect(() => {
-    console.log("Status: ", status);
-    if(status === "success"){
-      console.log("Data New: ", data);
-    }
-  }, [status])
+  // useEffect(() => {
+  //   console.log("Status: ", status);
+  //   if(status === "success"){
+  //     console.log("Data New: ", data);
+  //   }
+  // }, [status])
   
 
   return (
@@ -156,7 +244,7 @@ function Form() {
                   createContract();
                 }}
               >
-                {isSuccess ? "Listed" : isLoading ? "Loading...": "List Tickets"}
+                {"List Tickets"}
               </button>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import TicketCard from "../Cards/TicketCard";
+import ReBuy from "../Cards/ReBuy";
 
 function Resell() {
   const listedCards = [
@@ -67,7 +67,7 @@ function Resell() {
             </p>
             <div className="flex flex-wrap gap-3">
               {listedCards.map((card, index) => (
-                <TicketCard
+                <ReBuy
                   key={index}
                   imageUrl={card.imageUrl}
                   title={card.title}
@@ -85,7 +85,7 @@ function Resell() {
             </p>
             <div className="flex flex-wrap gap-3 w-full">
               {unlistedCards.map((card, index) => (
-                <TicketCard
+                <ReBuy
                   key={index}
                   imageUrl={card.imageUrl}
                   title={card.title}

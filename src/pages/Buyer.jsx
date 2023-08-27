@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import TicketCard from "../components/Cards/TicketCard";
 import Buy from "../components/Buyer/Buy";
 import Resell from "../components/Buyer/Resell";
 import Own from "../components/Buyer/Own";

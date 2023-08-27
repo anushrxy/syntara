@@ -1,7 +1,24 @@
 import React, { useState } from "react";
+import { useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { parseAbi, parseEther } from 'viem'
 
-const TicketCard = ({ imageUrl, title, venue, genre, price, task }) => {
+const ReBuy = ({ imageUrl, title, venue, genre, price, task, contract, metadata }) => {
   const [resellPrice, setResellPrice] = useState("");
+
+  const { config, error } = usePrepareContractWrite({
+    address: contract,
+    abi: parseAbi([
+      "function listTicket(uint256 ticketId, uint256 price) public",
+    ]),
+    functionName: "listTicket",
+    args: [metadata],
+    value: parseEther(price),
+  });
+
+  const { write, data,  isSuccess, isLoading} = useContractWrite(config);
+
+
+  
 
   return (
     <div className="bg-bg-secondary shadow-bg-tertiary overflow-hidden shadow-md group relative block max-w-[280px]">
@@ -48,4 +65,4 @@ const TicketCard = ({ imageUrl, title, venue, genre, price, task }) => {
   );
 };
 
-export default TicketCard;
+export default ReBuy;

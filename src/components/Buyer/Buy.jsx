@@ -1,30 +1,28 @@
-import React from "react";
-import TicketCard from "../Cards/TicketCard";
+import React, { useEffect, useState } from "react";
+import BuyCard from "../Cards/BuyCard";
+import { setDoc, doc, collection, query, getDocs } from "firebase/firestore";
+import { db } from "../../../firebaseConfig";
+
 
 function Buy() {
-  const directBuyCards = [
-    {
-      imageUrl: "https://picsum.photos/200",
-      title: "Card Title 1",
-      venue: "Venue 1",
-      genre: "Genre 1",
-      price: "3",
-    },
-    {
-      imageUrl: "https://picsum.photos/200",
-      title: "Card Title 2",
-      venue: "Venue 2",
-      genre: "Genre 2",
-      price: "3",
-    },
-    {
-      imageUrl: "https://picsum.photos/200",
-      title: "Card Title 3",
-      venue: "Venue 3",
-      genre: "Genre 3",
-      price: "3",
-    },
-  ];
+
+  const [directBuyCards, setDirectBuyCards] = useState([]);
+
+  const getContracts = async () => {
+    const q = query(collection(db, "contracts"));
+    const data = [];
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      data.push({ id: doc.id, ...doc.data() });
+    });
+    console.log(data)
+    setDirectBuyCards(data);
+
+  };
+
+  useEffect(() => {
+    getContracts();
+  }, [])
 
   const peerBuyCards = [
     {
@@ -67,14 +65,15 @@ function Buy() {
             </p>
             <div className="flex flex-wrap gap-3">
               {directBuyCards.map((card, index) => (
-                <TicketCard
+                <BuyCard
                   key={index}
-                  imageUrl={card.imageUrl}
-                  title={card.title}
+                  imageUrl={card.image}
+                  title={card.name}
                   venue={card.venue}
                   genre={card.genre}
                   price={card.price}
-                  task="buy"
+                  contract={card.id}
+                  metadata={card.metadata}
                   className=""
                 />
               ))}
@@ -86,14 +85,13 @@ function Buy() {
             </p>
             <div className="flex flex-wrap gap-3 w-full">
               {peerBuyCards.map((card, index) => (
-                  <TicketCard
+                  <BuyCard
                   key={index}
                   imageUrl={card.imageUrl}
                   title={card.title}
                   venue={card.venue}
                   genre={card.genre}
                   price={card.price}
-                  task="buy"
                   className=""
                   />
                   ))}
