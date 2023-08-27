@@ -20,7 +20,7 @@ function Seller() {
   };
 
   return (
-    <div className="text-color-primary flex flex-col justify-center items-center gap-5 w-screen min-h-screen py-10 overflow-x-hidden">
+    <div className="text-color-primary flex flex-col justify-center items-center gap-5 min-h-screen py-10 overflow-x-hidden">
       <div className="flex flex-col gap-1 sm:gap-2">
         <p className="text-3xl md:text-5xl font-bold text-center inline">
           Unlock the Potential of Your Tickets
@@ -32,7 +32,7 @@ function Seller() {
       </div>
       <div className="flex gap-4 bg-bg-secondary px-2 sm:px-5 py-1 mt-2">
         <button
-          className={`text-lg ${
+          className={`text-base sm:text-lg ${
             activeTab === 1 ? "font-semibold" : ""
           } border-r-2 border-r-color-secondary pr-2 sm:pr-5`}
           onClick={() => setActiveTab(1)}
@@ -40,7 +40,7 @@ function Seller() {
           List Tickets
         </button>
         <button
-          className={`text-lg ${
+          className={`text-base sm:text-lg ${
             activeTab === 2 ? "font-semibold" : ""
           } border-r-2 border-r-color-secondary pr-2 sm:pr-5`}
           onClick={() => setActiveTab(2)}
@@ -48,7 +48,9 @@ function Seller() {
           View Sales
         </button>
         <button
-          className={`text-lg ${activeTab === 3 ? "font-semibold" : ""} `}
+          className={`text-base sm:text-lg ${
+            activeTab === 3 ? "font-semibold" : ""
+          } `}
           onClick={() => setActiveTab(3)}
         >
           Verify Tickets
