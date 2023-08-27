@@ -3,9 +3,9 @@ import SpecialityCard from "./Cards/SpecialityCard";
 
 function Speciality() {
   return (
-    <div className="py-10 px-4 flex flex-col items-center justify-start">
-      <div>
-        <p className="text-4xl md:text-7xl font-bold">Our Speciality</p>
+    <div className="py-10 px-4 flex flex-col items-center justify-start max-w-[90%] mx-auto">
+      <div className="md:self-start ">
+        <p className="text-4xl md:text-7xl font-bold ">Our Speciality</p>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="500"
@@ -22,10 +22,10 @@ function Speciality() {
           />
         </svg>
       </div>
-      <div className="flex flex-col w-full gap-5 justify-around items-center mt-5 md:mt-10">
+      <div className=" self-start flex flex-col w-full gap-10 sm:gap-5 justify-around md:items-start mt-5 md:mt-10 h-fit max-w-[1600px] ">
         <SpecialityCard title={"Buy Tickets"} className="">Our app allows users to quickly and securely purchase event tickets using a range of payment options. Users can easily browse through upcoming events, select the tickets they want, and receive them as NFTs that can be stored in their digital wallet. This makes it easy to manage your tickets and never worry about losing or misplacing them.</SpecialityCard>
-        <SpecialityCard title={"List Tickets"}>Users can also use our app to sell their tickets on our marketplace. Our platform allows for transparent and secure transactions between buyers and sellers, ensuring that both parties are protected. When selling tickets, users can set their own price and list their tickets for sale in just a few clicks.</SpecialityCard>
-        <SpecialityCard title={"Trade Tickets"}>Our app also offers a unique feature that allows users to trade their event tickets with others. This feature is perfect for users who have a change of plans and can no longer attend an event. Instead of selling their tickets, they can offer them up for trade and find someone who is willing to swap tickets for another event.</SpecialityCard>
+        <SpecialityCard style={"md:self-center"} title={"List Tickets"}>Users can also use our app to sell their tickets on our marketplace. Our platform allows for transparent and secure transactions between buyers and sellers, ensuring that both parties are protected. When selling tickets, users can set their own price and list their tickets for sale in just a few clicks.</SpecialityCard>
+        <SpecialityCard style={"md:self-end"} title={"Trade Tickets"}>Our app also offers a unique feature that allows users to trade their event tickets with others. This feature is perfect for users who have a change of plans and can no longer attend an event. Instead of selling their tickets, they can offer them up for trade and find someone who is willing to swap tickets for another event.</SpecialityCard>
       </div>
     </div>
   );
