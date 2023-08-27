@@ -20,12 +20,12 @@ function Seller() {
   };
 
   return (
-    <div className="text-color-primary flex flex-col justify-center items-center gap-5 w-screen min-h-screen py-10">
+    <div className="text-color-primary flex flex-col justify-center items-center gap-5 w-screen min-h-screen py-10 overflow-x-hidden">
       <div className="flex flex-col gap-1 sm:gap-2">
-        <p className="text-3xl md:text-5xl font-bold text-center">
+        <p className="text-3xl md:text-5xl font-bold text-center inline">
           Unlock the Potential of Your Tickets
         </p>
-        <p className="text-base sm:text-lg font-medium text-center text-color-secondary">
+        <p className="text-base sm:text-lg font-medium text-center text-color-secondary inline">
           Ready to transform your event tickets into cash? Embrace the
           ticket-selling revolution now and effortlessly earn money.
         </p>

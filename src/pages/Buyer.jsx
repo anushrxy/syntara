@@ -18,12 +18,12 @@ function Buyer() {
   };
 
   return (
-    <div className="text-color-primary flex flex-col justify-center items-center gap-5 w-screen min-h-screen py-10">
+    <div className="text-color-primary flex flex-col justify-center items-center gap-5 w-screen min-h-screen py-10 overflow-x-hidden">
       <div className="flex flex-col gap-1 sm:gap-2">
-        <p className="text-3xl md:text-5xl font-bold text-center">
+        <p className="text-3xl md:text-5xl font-bold text-center inline">
           Elevate Ticket Experience: Own, Buy & Resell with Ease
         </p>
-        <p className="text-base sm:text-lg font-medium text-center text-color-secondary">
+        <p className="text-base sm:text-lg font-medium text-center text-color-secondary inline">
           Discover the Ultimate Ticket Hub: Possess, Acquire, and Resell Your
           Tickets Conveniently
         </p>
