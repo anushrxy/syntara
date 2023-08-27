@@ -8,12 +8,12 @@ body {
 
 ::-moz-selection {
   color: #fff9df;
-  background: #260b36;
+  background: #5F1989;
 }
 
 ::selection {
   color: #fff9df;
-  background: #260b36;
+  background: #5F1989;
 }
 
 @media (max-width: 970px) {

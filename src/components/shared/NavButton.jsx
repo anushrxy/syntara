@@ -30,9 +30,7 @@ function NavButton({ mobile }) {
 
   return (
     <div
-      className={`cursor-pointer ${
-        mobile ? "flex md:hidden" : "hidden md:flex"
-      } items-center flex-col`}
+      className={`cursor-pointer ${mobile === "true" ? "flex md:hidden" : mobile === "false" ? "hidden md:flex" : "flex items-center"} flex-col`}
     >
       {/* {isConnected && <div>Connected to {activeConnector.name}</div>} */}
 
