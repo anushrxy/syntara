@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { usePrepareContractWrite, useContractWrite, useContractRead } from "wagmi";
+import {
+  usePrepareContractWrite,
+  useContractWrite,
+  useContractRead,
+} from "wagmi";
 import { parseAbi, parseEther } from "viem";
 import { ethers } from "ethers";
 
@@ -13,88 +17,101 @@ function Form() {
   const [price, setPrice] = useState("");
   const [receipt, setReceipt] = useState("");
   const [deployedContract, setDeployedContract] = useState("");
+  const [ipfsDetails, setIpfsDetails] = useState({});
+  const [buttonState, setButtonState] = useState("List Tickets");
 
   const contractAddress = "0x6e87f7782fCc8344F828857BdB0E402c09a3F29E";
   const abi = [
     {
-      "inputs": [
+      inputs: [
         {
-          "internalType": "string",
-          "name": "contractName",
-          "type": "string"
+          internalType: "string",
+          name: "contractName",
+          type: "string",
         },
         {
-          "internalType": "string",
-          "name": "symbol",
-          "type": "string"
-        }
+          internalType: "string",
+          name: "symbol",
+          type: "string",
+        },
       ],
-      "name": "deployNewContract",
-      "outputs": [
+      name: "deployNewContract",
+      outputs: [
         {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
       ],
-      "stateMutability": "nonpayable",
-      "type": "function"
+      stateMutability: "nonpayable",
+      type: "function",
     },
     {
-      "inputs": [
+      inputs: [
         {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
       ],
-      "name": "deployedContracts",
-      "outputs": [
+      name: "deployedContracts",
+      outputs: [
         {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
       ],
-      "stateMutability": "view",
-      "type": "function"
+      stateMutability: "view",
+      type: "function",
     },
     {
-      "inputs": [],
-      "name": "getLastContract",
-      "outputs": [
+      inputs: [],
+      name: "getLastContract",
+      outputs: [
         {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
       ],
-      "stateMutability": "view",
-      "type": "function"
-    }
+      stateMutability: "view",
+      type: "function",
+    },
   ];
-  
-
-  // const { config, error } = usePrepareContractWrite({
-  //   address: "0x6e87f7782fCc8344F828857BdB0E402c09a3F29E",
-  //   abi: parseAbi([
-  //     "function deployNewContract(string memory contractName, string memory symbol) public",
-  //   ]),
-  //   functionName: "deployNewContract",
-  //   args: [` ${eventName}`, eventName],
-  // });
-
-
-  // const { write, data,  isSuccess, isLoading} = useContractWrite(config);
-
 
   async function createContract() {
-    console.log("Create Contract");
+    setButtonState("Uploading on IPFS...");
+
+    const form = new FormData();
+    form.append(
+      "filePath", "");
+    form.append("name", eventName);
+    form.append("description", venue,genre);
+
+    const options = {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "X-API-Key": "pk_live_2a7ca841-dbcb-4dd3-8e40-aaa09155ab0e",
+      },
+    };
+
+    options.body = form;
+
+    fetch("https://api.verbwire.com/v1/nft/store/metadataFromImage", options)
+      .then((response) => response.json())
+      .then((response) => console.log(response))
+      .catch((err) => console.error(err));
+
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
     const contractInstance = new ethers.Contract(contractAddress, abi, signer);
-    const transaction = await contractInstance.deployNewContract(eventName, eventName);
-    console.log("Transaction: ", transaction)
+    const transaction = await contractInstance.deployNewContract(
+      eventName,
+      eventName
+    );
+    console.log("Transaction: ", transaction);
     const receipt = await transaction.wait();
     console.log("Receipt: ", receipt);
     const contractInstance2 = new ethers.Contract(contractAddress, abi, signer);
@@ -104,24 +121,22 @@ function Form() {
 
   useEffect(() => {
     if (receipt) {
-      console.log("Hello")
+      console.log("Hello");
       // getLastContract();
     }
-  }, [receipt])
-  
-
-
+  }, [receipt]);
 
   async function getLastContract() {
     console.log("Getting Last Contract...");
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
-    const contractAddress = "0x6e87f7782fCc8344F828857BdB0E402c09a3F29E"
-    const abi = parseAbi(["function getLastContract() public view returns (address)"]);
+    const contractAddress = "0x6e87f7782fCc8344F828857BdB0E402c09a3F29E";
+    const abi = parseAbi([
+      "function getLastContract() public view returns (address)",
+    ]);
     const contractInstance2 = new ethers.Contract(contractAddress, abi, signer);
     const lastContract = await contractInstance2.getLastContract();
     console.log("Last Contract: ", lastContract);
-    
   }
 
   // const { data, isError, status } = useContractRead({
@@ -136,7 +151,6 @@ function Form() {
   //     console.log("Data New: ", data);
   //   }
   // }, [status])
-  
 
   return (
     <>
@@ -144,7 +158,13 @@ function Form() {
         <div className="mx-auto max-w-screen-lg px-4 pt-2 pb-16 sm:px-6 lg:px-8">
           <div className="">
             <div className="bg-bg-tertiary p-8 shadow-lg lg:p-12">
-              <form action="" onSubmit={(e)=>{e.preventDefault()}} className="space-y-4">
+              <form
+                action=""
+                onSubmit={(e) => {
+                  e.preventDefault();
+                }}
+                className="space-y-4"
+              >
                 <div>
                   <label className="sr-only" for="event-name">
                     Event Name
