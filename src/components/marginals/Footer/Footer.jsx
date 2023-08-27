@@ -7,9 +7,9 @@ function Footer() {
     <div className="bg-color-primary flex flex-col items-center">
       <div className="w-full bg-color-primary flex flex-col md:flex-row justify-around items-center md:items-start border-t-[2px] border-t-color-secondary pt-5 gap-y-6">
         <h2 className="text-5xl font-bold text-bg-primary">Syntara</h2>
-        <div className="flex flex-col items-center md:items-start">
+        <div className="flex flex-col items-center">
           <h4 className="text-lg font-[500] text-bg-primary">Links</h4>
-          <ul className="flex flex-col md:items-start items-center">
+          <ul className="flex flex-col items-center">
             <li className="text-base text-bg-primary cursor-pointer">
               Register
             </li>
@@ -21,9 +21,9 @@ function Footer() {
             </li>
           </ul>
         </div>
-        <div className="flex flex-col items-center md:items-start">
+        <div className="flex flex-col items-center md:items-end">
           <h4 className="text-lg font-[500] text-bg-primary">Contacts</h4>
-          <ul className="flex flex-col md:items-start items-center">
+          <ul className="flex flex-col md:items-end items-center">
             <li className="text-base text-bg-primary cursor-pointer">
               <a href="mailto:anmolpattnayak2016@gmail.com">
                 anmolpattnayak2016@gmail.com
