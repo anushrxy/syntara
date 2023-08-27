@@ -26,7 +26,7 @@ function NavBar() {
             About
           </a>
         </div>
-        <NavButton mobile={false} />
+        <NavButton mobile={"false"} />
 
         <button
           className="md:hidden flex items-center"
@@ -59,7 +59,7 @@ function NavBar() {
             <a href="/#about" className="block hover:text-color-secondary">
               About
             </a>
-            <NavButton mobile={true} />
+            <NavButton mobile={"true"} />
           </div>
         </div>
       </div>
