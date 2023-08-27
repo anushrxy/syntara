@@ -16,10 +16,10 @@ function NavBar() {
           <a href="/" className="hover:text-color-secondary">
             Home
           </a>
-          <a href="#speciality" className="hover:text-color-secondary">
+          <a href="/#speciality" className="hover:text-color-secondary">
             Speciality
           </a>
-          <a href="#about" className="hover:text-color-secondary">
+          <a href="/#about" className="hover:text-color-secondary">
             About
           </a>
         </div>
@@ -50,10 +50,10 @@ function NavBar() {
             <a href="/" className="block hover:text-color-secondary">
               Home
             </a>
-            <a href="#speciality" className="block hover:text-color-secondary">
+            <a href="/#speciality" className="block hover:text-color-secondary">
               Speciality
             </a>
-            <a href="#about" className="block hover:text-color-secondary">
+            <a href="/#about" className="block hover:text-color-secondary">
               About
             </a>
             <NavButton mobile={true} />

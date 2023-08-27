@@ -6,6 +6,16 @@ body {
   background-color: #260b36;
 }
 
+::-moz-selection {
+  color: #fff9df;
+  background: #260b36;
+}
+
+::selection {
+  color: #fff9df;
+  background: #260b36;
+}
+
 @media (max-width: 970px) {
   .custom-strip {
     animation: ticker 50s linear 0s infinite;
