@@ -3,32 +3,32 @@ import React from "react";
 const TicketTable = () => {
   const events = [
     {
-      name: "Event 1",
-      ticketsSold: 100,
-      ticketsLeft: 50,
-      amountEarned: "$2000",
+      name: "ICC Worldcup",
+      ticketsSold: 5,
+      ticketsLeft: 75,
+      amountEarned: "0.02 ETH",
     },
-    {
-      name: "Event 2",
-      ticketsSold: 75,
-      ticketsLeft: 25,
-      amountEarned: "$1500",
-    },
-    {
-      name: "Event 3",
-      ticketsSold: 50,
-      ticketsLeft: 10,
-      amountEarned: "$1007",
-    },
-    {
-      name: "Event 4",
-      ticketsSold: 50,
-      ticketsLeft: 10,
-      amountEarned: "$1000",
-    },
+    // {
+    //   name: "Event 2",
+    //   ticketsSold: 75,
+    //   ticketsLeft: 25,
+    //   amountEarned: "$1500",
+    // },
+    // {
+    //   name: "Event 3",
+    //   ticketsSold: 50,
+    //   ticketsLeft: 10,
+    //   amountEarned: "$1007",
+    // },
+    // {
+    //   name: "Event 4",
+    //   ticketsSold: 50,
+    //   ticketsLeft: 10,
+    //   amountEarned: "$1000",
+    // },
   ];
   const totalAmountEarned = events.reduce(
-    (total, event) => total + parseFloat(event.amountEarned.replace("$", "")),
+    (total, event) => total + parseFloat(event.amountEarned.replace("", "ETH")),
     0
   );
 
@@ -67,7 +67,8 @@ const TicketTable = () => {
                   Total Amount Earned:
                 </td>
                 <td className="border border-color-primary px-4 py-2 font-semibold">
-                  ${totalAmountEarned.toFixed(2)}
+                  {/* ${totalAmountEarned.toFixed(2)} */}
+                  {'0.02 ETH'}
                 </td>
               </tr>
             </tbody>
