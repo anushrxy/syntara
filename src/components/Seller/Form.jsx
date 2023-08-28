@@ -83,26 +83,26 @@ function Form() {
   async function createContract() {
     setButtonState("Uploading on IPFS...");
 
-    const form = new FormData();
-    form.append(
-      "filePath", "");
-    form.append("name", eventName);
-    form.append("description", venue,genre);
+    // const form = new FormData();
+    // form.append(
+    //   "filePath", "");
+    // form.append("name", eventName);
+    // form.append("description", venue,genre);
 
-    const options = {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "X-API-Key": "pk_live_2a7ca841-dbcb-4dd3-8e40-aaa09155ab0e",
-      },
-    };
+    // const options = {
+    //   method: "POST",
+    //   headers: {
+    //     accept: "application/json",
+    //     "X-API-Key": "pk_live_2a7ca841-dbcb-4dd3-8e40-aaa09155ab0e",
+    //   },
+    // };
 
-    options.body = form;
+    // options.body = form;
 
-    fetch("https://api.verbwire.com/v1/nft/store/metadataFromImage", options)
-      .then((response) => response.json())
-      .then((response) => console.log(response))
-      .catch((err) => console.error(err));
+    // fetch("https://api.verbwire.com/v1/nft/store/metadataFromImage", options)
+    //   .then((response) => response.json())
+    //   .then((response) => console.log(response))
+    //   .catch((err) => console.error(err));
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();

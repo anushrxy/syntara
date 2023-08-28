@@ -1,47 +1,74 @@
 import React, { useEffect } from "react";
-import { useContractWrite, usePrepareContractWrite } from 'wagmi'
-import { parseAbi, parseEther } from 'viem'
-import { ethers } from "ethers"
+import { useContractWrite, usePrepareContractWrite } from "wagmi";
+import { parseAbi, parseEther } from "viem";
+import { ethers } from "ethers";
+import { setDoc, doc, collection, query, getDocs } from "firebase/firestore";
+import { db } from "../../../firebaseConfig";
 
-const BuyCard = ({ imageUrl, title, venue, genre, price, task, contract, metadata }) => {
-  
-
-  // Prepare the contract write function
-  // const { config, error,  } = usePrepareContractWrite({
-  //   address: contract,
-  //   abi: parseAbi(["function buyTicket(string memory tokenURI) public payable"]),
-  //   functionName: "buyTicket",
-  //   args: [metadata],
-  //   value: parseEther(price),
-  // });
-
-  // // Function to handle the buy action
-  // const handleBuy = async () => {
-  //   if (write) {
-  //     await write();
-  //   }
-  // };
-
-  // // useEffect to handle the result of the transaction
-  // useEffect(() => {
-  //   if (config.isSuccess) {
-  //     console.log("Transaction Hash: ", config.data.hash);
-  //   }
-  // }, [config.isSuccess, config.data]);
+const BuyCard = ({
+  imageUrl,
+  title,
+  venue,
+  genre,
+  price,
+  task,
+  remaining,
+  sold,
+  contract,
+  metadata,
+}) => {
   async function handleBuy() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
-    const contractInstance = new ethers.Contract(contract, parseAbi(["function buyTicket(string memory tokenURI) public payable"]), signer);
-    
-      const transaction = await contractInstance.buyTicket(metadata, { value: parseEther(price) });
-      const receipt = await transaction.wait();
-      console.log("Receipt: ", receipt);
+    const contractInstance = new ethers.Contract(
+      contract,
+      parseAbi(["function buyTicket(string memory tokenURI) public payable"]),
+      signer
+    );
+
+    const transaction = await contractInstance.buyTicket(metadata, {
+      value: parseEther(price),
+    });
+
+    if (transaction) {
+      addContract(
+        contract,
+        title,
+        imageUrl,
+        price,
+        Number(Number(remaining) - 1),
+        sold + 1,
+        venue,
+        genre
+      );
+    }
   }
-  
-  
+
+  const addContract = async (
+    contractAddress,
+    name,
+    imgUrl,
+    price,
+    remaining,
+    sold,
+    venue,
+    genre
+  ) => {
+    await setDoc(doc(db, "contracts", contractAddress), {
+      name: name,
+      imgUrl: imgUrl,
+      price: price,
+      remaining: remaining,
+      sold: sold,
+      venue: venue,
+      genre: genre,
+    });
+    console.log("Document written with ID: ", contractAddress);
+  };
 
   return (
     <div className="bg-bg-secondary shadow-bg-tertiary overflow-hidden shadow-md group relative block max-w-[280px]">
+      {console.log(imageUrl)}
       <img
         className="h-[300px] w-full object-cover sm:h-72"
         src={imageUrl}

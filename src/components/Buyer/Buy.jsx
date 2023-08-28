@@ -67,13 +67,15 @@ function Buy() {
               {directBuyCards.map((card, index) => (
                 <BuyCard
                   key={index}
-                  imageUrl={card.image}
+                  imageUrl={card.imgUrl}
                   title={card.name}
                   venue={card.venue}
                   genre={card.genre}
                   price={card.price}
                   contract={card.id}
                   metadata={card.metadata}
+                  remaining={card.remaining}
+                  sold={card.sold}
                   className=""
                 />
               ))}
