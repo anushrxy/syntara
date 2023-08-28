@@ -8,6 +8,78 @@ import {
 import { parseAbi, parseEther } from "viem";
 import { ethers } from "ethers";
 
+import { setDoc, doc, collection, query, getDocs } from "firebase/firestore";
+import { db } from "../../../firebaseConfig";
+
+async function addContract(
+  contractAddress,
+  name,
+  imgUrl,
+  price,
+  remaining,
+  sold,
+  venue,
+  genre
+) {
+  try {
+    await setDoc(doc(db, "contracts", contractAddress), {
+      name: name,
+      imgUrl: imgUrl,
+      price: price,
+      remaining: remaining,
+      sold: sold || 0,
+      venue: venue,
+      genre: genre,
+    });
+
+    console.log("Document written with ID: ", contractAddress);
+  } catch (error) {
+    console.error("Error writing document: ", error);
+  }
+}
+
+async function getLastContract() {
+  console.log("Getting Last Contract...");
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = await provider.getSigner();
+    const contractAddress = "0x6e87f7782fCc8344F828857BdB0E402c09a3F29E";
+    const abi = parseAbi([
+      "function getLastContract() public view returns (address)",
+    ]);
+    const contractInstance2 = new ethers.Contract(
+      contractAddress,
+      abi,
+      signer
+    );
+    const lastContract = await contractInstance2.getLastContract();
+    console.log("Last Contract: ", lastContract);
+    setButtonState("Uploading on IPFS...");
+
+    const form = new FormData();
+    form.append("filePath", file);
+    form.append("name", eventName);
+    form.append("description", `${venue}, ${genre}`);
+
+    const options = {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "X-API-Key": "pk_live_2a7ca841-dbcb-4dd3-8e40-aaa09155ab0e",
+      },
+      body: form,
+    };
+    fetch("https://api.verbwire.com/v1/nft/store/metadataFromImage", options)
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => console.error(err));
+  } catch (error) {
+    console.error("Error fetching contract data: ", error);
+  }
+}
+
 function Form() {
   const [eventName, setEventName] = useState("");
   const [genre, setGenre] = useState("");
@@ -83,11 +155,10 @@ function Form() {
   async function createContract() {
     setButtonState("Uploading on IPFS...");
 
-    // const form = new FormData();
-    // form.append(
-    //   "filePath", "");
-    // form.append("name", eventName);
-    // form.append("description", venue,genre);
+    const form = new FormData();
+    form.append("filePath", file);
+    form.append("name", eventName);
+    form.append("description", `${venue}, ${genre}`);
 
     // const options = {
     //   method: "POST",
@@ -99,10 +170,27 @@ function Form() {
 
     // options.body = form;
 
-    // fetch("https://api.verbwire.com/v1/nft/store/metadataFromImage", options)
-    //   .then((response) => response.json())
-    //   .then((response) => console.log(response))
-    //   .catch((err) => console.error(err));
+    try {
+      const response = await fetch("https://api.verbwire.com/v1/nft/store/metadataFromImage", options);
+      const responseData = await response.json();
+
+      const lastContract = await getLastContract();
+      addContract(
+        lastContract,
+        eventName,
+        responseData.imgUrl,
+        price,
+        quantity,
+        100,
+        venue,
+        genre
+      );
+
+      setButtonState("List Tickets");
+    } catch (error) {
+      console.error(error);
+      setButtonState("List Tickets");
+    }
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
@@ -122,22 +210,8 @@ function Form() {
   useEffect(() => {
     if (receipt) {
       console.log("Hello");
-      // getLastContract();
     }
   }, [receipt]);
-
-  async function getLastContract() {
-    console.log("Getting Last Contract...");
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = await provider.getSigner();
-    const contractAddress = "0x6e87f7782fCc8344F828857BdB0E402c09a3F29E";
-    const abi = parseAbi([
-      "function getLastContract() public view returns (address)",
-    ]);
-    const contractInstance2 = new ethers.Contract(contractAddress, abi, signer);
-    const lastContract = await contractInstance2.getLastContract();
-    console.log("Last Contract: ", lastContract);
-  }
 
   // const { data, isError, status } = useContractRead({
   //   address: '0x6e87f7782fCc8344F828857BdB0E402c09a3F29E',
@@ -166,7 +240,7 @@ function Form() {
                 className="space-y-4"
               >
                 <div>
-                  <label className="sr-only" for="event-name">
+                  <label className="sr-only" htmlFor="event-name">
                     Event Name
                   </label>
                   <input
@@ -181,7 +255,7 @@ function Form() {
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="sr-only" for="venue">
+                    <label className="sr-only" htmlFor="venue">
                       Venue
                     </label>
                     <input
@@ -195,7 +269,7 @@ function Form() {
                   </div>
 
                   <div>
-                    <label className="sr-only" for="genre">
+                    <label className="sr-only" htmlFor="genre">
                       Genre
                     </label>
                     <input
@@ -209,7 +283,7 @@ function Form() {
                   </div>
                 </div>
                 <div>
-                  <label for="file-input" class="sr-only">
+                  <label htmlFor="file-input" className="sr-only">
                     Choose file
                   </label>
                   <input
@@ -217,7 +291,7 @@ function Form() {
                     name="file-input"
                     id="file-input"
                     placeholder="Upload NFT Image."
-                    class="block w-full shadow-sm text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-bg-primary dark:border-gray-700 dark:text-gray-400
+                    className="block w-full shadow-sm text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-bg-primary dark:border-gray-700 dark:text-gray-400
                     file:bg-transparent file:border-0
                     file:bg-gray-200 file:mr-4
                     file:py-3 file:px-4
@@ -227,7 +301,7 @@ function Form() {
                 </div>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="sr-only" for="seats">
+                    <label className="sr-only" htmlFor="seats">
                       Seats Quantity
                     </label>
                     <input
@@ -241,7 +315,7 @@ function Form() {
                   </div>
 
                   <div>
-                    <label className="sr-only" for="price">
+                    <label className="sr-only" htmlFor="price">
                       Price
                     </label>
                     <input
